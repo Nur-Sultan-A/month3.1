@@ -1,5 +1,6 @@
 import flet as ft 
 from db import main_db
+import datetime
 
 
 def main(page: ft.Page):
@@ -17,6 +18,9 @@ def main(page: ft.Page):
 
     def create_task_row(task_id, task_text):
         task_field = ft.TextField(value=task_text, read_only=True, expand=True)
+        now = datetime.datetime.now()
+        time = now.strftime("%Y-%m-%d %H:%M:%S")
+        task_time = ft.Text(value=time)
 
         def enable_edit(_):
             task_field.read_only = False
@@ -39,7 +43,7 @@ def main(page: ft.Page):
 
         delete_button = ft.IconButton(icon=ft.Icons.DELETE, tooltip="Удалить", on_click=delete_task, icon_color=ft.Colors.RED_700)
 
-        return ft.Row([task_field, edit_button, save_button, delete_button])
+        return ft.Row([task_time, task_field, edit_button, save_button, delete_button])
 
     def add_task(_):
         if task_input.value:
